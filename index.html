@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Us Two ❤️</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
+</head>
+
+<body>
+
+<div id="loadingScreen" class="loading-screen">
+    <div class="big-heart">❤️</div>
+    <h2>Us Two</h2>
+    <p>Loading your little world...</p>
+</div>
+
+
+<!-- ================= AUTH ================= -->
+
+<section id="authScreen" class="auth-screen hidden">
+
+    <div class="auth-card">
+
+        <div class="auth-logo">❤️</div>
+
+        <h1>Us Two</h1>
+        <p class="subtitle">Your little world, together.</p>
+
+        <div id="loginForm">
+
+            <h2>Welcome back 💕</h2>
+
+            <input id="loginEmail"
+                   type="email"
+                   placeholder="Email">
+
+            <input id="loginPassword"
+                   type="password"
+                   placeholder="Password">
+
+            <button class="primary-btn" onclick="login()">
+                Login ❤️
+            </button>
+
+            <p class="switch-text">
+                New here?
+                <button onclick="showSignup()">Create account</button>
+            </p>
+
+        </div>
+
+
+        <div id="signupForm" class="hidden">
+
+            <h2>Create your account 💕</h2>
+
+            <input id="signupName"
+                   type="text"
+                   placeholder="Your name">
+
+            <input id="signupEmail"
+                   type="email"
+                   placeholder="Email">
+
+            <input id="signupPassword"
+                   type="password"
+                   placeholder="Password">
+
+            <button class="primary-btn" onclick="signup()">
+                Create Account ❤️
+            </button>
+
+            <p class="switch-text">
+                Already have an account?
+                <button onclick="showLogin()">Login</button>
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= APP ================= -->
+
+<div id="app" class="app hidden">
+
+    <header>
+
+        <div>
+            <h1>Us Two ❤️</h1>
+            <p id="welcomeText">Our little world</p>
+        </div>
+
+        <div class="header-actions">
+
+            <span id="onlineStatus" class="online">
+                ● Offline
+            </span>
+
+            <button class="icon-btn"
+                    onclick="logout()">
+                🚪
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <main>
+
+        <!-- ================= HOME ================= -->
+
+        <section id="homeScreen">
+
+            <section class="love-card">
+
+                <div class="heart">❤️</div>
+
+                <h2 id="coupleTitle">
+                    Our little world
+                </h2>
+
+                <p>
+                    Distance can't stop us from spending time together.
+                </p>
+
+                <button onclick="missYou()">
+                    💌 I Miss You
+                </button>
+
+            </section>
+
+
+            <!-- PARTNER SETUP -->
+
+            <section id="coupleSetup" class="setup-card hidden">
+
+                <h2>💑 Connect your partner</h2>
+
+                <p>
+                    Create a private couple room or join one
+                    using your partner's code.
+                </p>
+
+                <button class="primary-btn"
+                        onclick="createCouple()">
+                    Create Couple ❤️
+                </button>
+
+                <div class="divider">
+                    <span>OR</span>
+                </div>
+
+                <input id="joinCode"
+                       maxlength="10"
+                       placeholder="Enter couple code">
+
+                <button class="secondary-btn"
+                        onclick="joinCouple()">
+                    Join Couple 💕
+                </button>
+
+            </section>
+
+
+            <!-- COUPLE INFO -->
+
+            <section id="coupleInfo"
+                     class="couple-info hidden">
+
+                <div>
+                    <span class="status-dot"></span>
+                    <span id="partnerStatus">
+                        Waiting for partner...
+                    </span>
+                </div>
+
+                <p>
+                    Couple Code:
+                    <strong id="coupleCodeDisplay">------</strong>
+                </p>
+
+                <button onclick="copyCoupleCode()">
+                    📋 Copy Code
+                </button>
+
+            </section>
+
+
+            <!-- FEATURES -->
+
+            <section class="features">
+
+                <div class="feature"
+                     onclick="openChat()">
+
+                    <span>💬</span>
+
+                    <h3>Chat</h3>
+
+                    <p>Talk with each other</p>
+
+                </div>
+
+
+                <div class="feature"
+                     onclick="openGames()">
+
+                    <span>🎮</span>
+
+                    <h3>Games</h3>
+
+                    <p>Play together</p>
+
+                </div>
+
+
+                <div class="feature"
+                     onclick="openMemories()">
+
+                    <span>📸</span>
+
+                    <h3>Memories</h3>
+
+                    <p>Your special moments</p>
+
+                </div>
+
+
+                <div class="feature"
+                     onclick="openQuiz()">
+
+                    <span>❓</span>
+
+                    <h3>Couple Quiz</h3>
+
+                    <p>How well do you know me?</p>
+
+                </div>
+
+            </section>
+
+
+            <!-- COUNTDOWN -->
+
+            <section class="countdown">
+
+                <h2>💕 Our Next Meeting</h2>
+
+                <p class="meeting-date">
+                    December 25, 2026
+                </p>
+
+                <div class="timer">
+
+                    <div>
+                        <strong id="days">00</strong>
+                        <small>Days</small>
+                    </div>
+
+                    <div>
+                        <strong id="hours">00</strong>
+                        <small>Hours</small>
+                    </div>
+
+                    <div>
+                        <strong id="minutes">00</strong>
+                        <small>Minutes</small>
+                    </div>
+
+                    <div>
+                        <strong id="seconds">00</strong>
+                        <small>Seconds</small>
+                    </div>
+
+                </div>
+
+            </section>
+
+        </section>
+
+
+        <!-- ================= CHAT ================= -->
+
+        <section id="chatScreen" class="screen">
+
+            <div class="screen-header">
+
+                <button onclick="showHome()">
+                    ←
+                </button>
+
+                <div>
+                    <h2>💬 Us Two</h2>
+                    <p id="chatPartnerStatus">
+                        Private chat ❤️
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div id="messages"
+                 class="messages">
+            </div>
+
+
+            <div class="message-box">
+
+                <input
+                    type="text"
+                    id="messageInput"
+                    placeholder="Type a message ❤️"
+                    autocomplete="off"
+                >
+
+                <button onclick="sendMessage()">
+                    ➤
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= MEMORIES ================= -->
+
+        <section id="memoriesScreen" class="screen">
+
+            <div class="screen-header">
+
+                <button onclick="showHome()">←</button>
+
+                <div>
+                    <h2>📸 Memories</h2>
+                    <p>Our special moments ❤️</p>
+                </div>
+
+            </div>
+
+
+            <div class="memory-upload">
+
+                <input
+                    type="file"
+                    id="memoryInput"
+                    accept="image/*"
+                >
+
+                <button class="primary-btn"
+                        onclick="uploadMemory()">
+                    Upload Memory 📸
+                </button>
+
+            </div>
+
+
+            <div id="memoriesGrid"
+                 class="memories-grid">
+            </div>
+
+        </section>
+
+
+        <!-- ================= GAMES ================= -->
+
+        <section id="gamesScreen" class="screen">
+
+            <div class="screen-header">
+
+                <button onclick="showHome()">←</button>
+
+                <div>
+                    <h2>🎮 Couple Games</h2>
+                    <p>Have fun together ❤️</p>
+                </div>
+
+            </div>
+
+
+            <div class="game-card">
+
+                <div class="game-icon">❤️</div>
+
+                <h3>Love Number</h3>
+
+                <p>
+                    Pick a number between 1 and 10.
+                </p>
+
+                <div class="number-grid">
+
+                    <button onclick="loveNumber(1)">1</button>
+                    <button onclick="loveNumber(2)">2</button>
+                    <button onclick="loveNumber(3)">3</button>
+                    <button onclick="loveNumber(4)">4</button>
+                    <button onclick="loveNumber(5)">5</button>
+                    <button onclick="loveNumber(6)">6</button>
+                    <button onclick="loveNumber(7)">7</button>
+                    <button onclick="loveNumber(8)">8</button>
+                    <button onclick="loveNumber(9)">9</button>
+                    <button onclick="loveNumber(10)">10</button>
+
+                </div>
+
+                <p id="gameResult"></p>
+
+            </div>
+
+
+            <div class="game-card">
+
+                <div class="game-icon">😊</div>
+
+                <h3>How well do you know me?</h3>
+
+                <p>
+                    Answer a random couple question.
+                </p>
+
+                <button class="primary-btn"
+                        onclick="randomQuestion()">
+                    Ask Question 💕
+                </button>
+
+                <p id="randomQuestionResult"></p>
+
+            </div>
+
+
+            <div class="game-card">
+
+                <div class="game-icon">💌</div>
+
+                <h3>Send Love</h3>
+
+                <button class="love-big-btn"
+                        onclick="sendLoveGame()">
+                    ❤️ Send 100 Hearts ❤️
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= QUIZ ================= -->
+
+        <section id="quizScreen" class="screen">
+
+            <div class="screen-header">
+
+                <button onclick="showHome()">←</button>
+
+                <div>
+                    <h2>❓ Couple Quiz</h2>
+                    <p>How well do you know me?</p>
+                </div>
+
+            </div>
+
+
+            <div class="quiz-card">
+
+                <h2 id="quizQuestion">
+                    Let's start!
+                </h2>
+
+                <div id="quizOptions"></div>
+
+                <p id="quizScore"></p>
+
+                <button class="primary-btn"
+                        onclick="startQuiz()">
+                    Start Quiz ❤️
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- NAVIGATION -->
+
+    <nav>
+
+        <button onclick="showHome()">
+            🏠
+            <small>Home</small>
+        </button>
+
+        <button onclick="openChat()">
+            💬
+            <small>Chat</small>
+        </button>
+
+        <button onclick="openGames()">
+            🎮
+            <small>Games</small>
+        </button>
+
+        <button onclick="openMemories()">
+            📸
+            <small>Memories</small>
+        </button>
+
+    </nav>
+
+</div>
+
+
+<div id="toast"
+     class="toast">
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
